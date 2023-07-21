@@ -6,12 +6,12 @@ const ShowStats = ({good, neutral, bad, all, avg, positive}) => {
       <h1>statistics</h1>
       {good || neutral || bad ? (
         <>
-          <Display reviewCategory={'good'} reviewCount={good}/>
-          <Display reviewCategory={'neutral'} reviewCount={neutral}/>
-          <Display reviewCategory={'bad'} reviewCount={bad}/>
-          <Display reviewCategory={'all'} reviewCount={all}/>
-          <Display reviewCategory={'avg'} reviewCount={avg}/>
-          <Display reviewCategory={'positive'} reviewCount={positive}/> 
+          <StatisticLine reviewCategory={'good'} reviewCount={good}/>
+          <StatisticLine reviewCategory={'neutral'} reviewCount={neutral}/>
+          <StatisticLine reviewCategory={'bad'} reviewCount={bad}/>
+          <StatisticLine reviewCategory={'all'} reviewCount={all}/>
+          <StatisticLine reviewCategory={'avg'} reviewCount={avg}/>
+          <StatisticLine reviewCategory={'positive'} reviewCount={positive}/> 
         </>
       ) : 'No feedback given'}    
     </>)
@@ -78,5 +78,5 @@ const App = () => {
 }
 // **Remember to add event handlers to the Button component**
 const Button = ({review, handleClick}) => <button onClick={handleClick(review)}>{review}</button>  
-const Display = ({reviewCategory, reviewCount}) => <p>{reviewCategory} {reviewCount}</p>
+const StatisticLine = ({reviewCategory, reviewCount}) => <p>{reviewCategory} {reviewCount}</p>
 export default App;
