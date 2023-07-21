@@ -1,15 +1,20 @@
 import { useState } from "react";
 const ShowStats = ({good, neutral, bad, all, avg, positive}) => {
 
-  return (<>
-     <h1>statistics</h1>    
-      <Display reviewCategory={'good'} reviewCount={good}/>
-      <Display reviewCategory={'neutral'} reviewCount={neutral}/>
-      <Display reviewCategory={'bad'} reviewCount={bad}/>
-      <Display reviewCategory={'all'} reviewCount={all}/>
-      <Display reviewCategory={'avg'} reviewCount={avg}/>
-      <Display reviewCategory={'positive'} reviewCount={positive}/> 
-  </>)
+  return (
+    <>
+      <h1>statistics</h1>
+      {good || neutral || bad ? (
+        <>
+          <Display reviewCategory={'good'} reviewCount={good}/>
+          <Display reviewCategory={'neutral'} reviewCount={neutral}/>
+          <Display reviewCategory={'bad'} reviewCount={bad}/>
+          <Display reviewCategory={'all'} reviewCount={all}/>
+          <Display reviewCategory={'avg'} reviewCount={avg}/>
+          <Display reviewCategory={'positive'} reviewCount={positive}/> 
+        </>
+      ) : 'No feedback given'}    
+    </>)
 }
 const App = () => {
   const [good, setGood] = useState(0);
@@ -56,17 +61,20 @@ const App = () => {
       }
     }  
   } 
-  // const calcAvgScore = () => 
-  return (
-    <div>
-      <h1>give feedback</h1>
-      <Button handleClick={handleClick} review={'good'}/>
-      <Button handleClick={handleClick} review={'neutral'}/>
-      <Button handleClick={handleClick} review={'bad'}/>
-      <ShowStats good={good} neutral={neutral} bad={bad} all ={all} avg={avg} positive={positive} />
+  
+    return (
       
-    </div>
-  );
+      <div>
+        <h1>give feedback</h1>
+        <Button handleClick={handleClick} review={'good'}/>
+        <Button handleClick={handleClick} review={'neutral'}/>
+        <Button handleClick={handleClick} review={'bad'}/>
+        <ShowStats good={good} neutral={neutral} bad={bad} all ={all} avg={avg} positive={positive} />
+        
+      </div>
+    );
+  
+  
 }
 // **Remember to add event handlers to the Button component**
 const Button = ({review, handleClick}) => <button onClick={handleClick(review)}>{review}</button>  
