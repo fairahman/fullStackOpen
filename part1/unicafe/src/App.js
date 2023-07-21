@@ -1,5 +1,16 @@
 import { useState } from "react";
+const ShowStats = ({good, neutral, bad, all, avg, positive}) => {
 
+  return (<>
+     <h1>statistics</h1>    
+      <Display reviewCategory={'good'} reviewCount={good}/>
+      <Display reviewCategory={'neutral'} reviewCount={neutral}/>
+      <Display reviewCategory={'bad'} reviewCount={bad}/>
+      <Display reviewCategory={'all'} reviewCount={all}/>
+      <Display reviewCategory={'avg'} reviewCount={avg}/>
+      <Display reviewCategory={'positive'} reviewCount={positive}/> 
+  </>)
+}
 const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
@@ -52,13 +63,8 @@ const App = () => {
       <Button handleClick={handleClick} review={'good'}/>
       <Button handleClick={handleClick} review={'neutral'}/>
       <Button handleClick={handleClick} review={'bad'}/>
-      <h1>statistics</h1>
-      <Display reviewCategory={'good'} reviewCount={good}/>
-      <Display reviewCategory={'neutral'} reviewCount={neutral}/>
-      <Display reviewCategory={'bad'} reviewCount={bad}/>
-      <Display reviewCategory={'all'} reviewCount={all}/>
-      <Display reviewCategory={'avg'} reviewCount={avg}/>
-      <Display reviewCategory={'positive'} reviewCount={positive}/>
+      <ShowStats good={good} neutral={neutral} bad={bad} all ={all} avg={avg} positive={positive} />
+      
     </div>
   );
 }
