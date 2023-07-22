@@ -15,6 +15,8 @@ function App() {
    
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0));
+  const [mostVotesIndex, setMostVotesIndex] = useState('');
+  const [mostVotes, setMostVotes] = useState(0);
   console.log("votes", votes);
   const handleClick = () => {
     let index = Math.floor(Math.random()*anecdotes.length)
@@ -30,9 +32,15 @@ function App() {
     const copy = [...votes];
     ++copy[selected]   
     setVotes(copy);
+    if (copy[selected] > mostVotes) {
+      setMostVotes(copy[selected]);
+      setMostVotesIndex(selected);
+    }
   }
   console.log(votes[selected])
   console.log(votes)
+  console.log("mostVotes", mostVotes)
+
   return (
     <div>
       <div>
@@ -42,6 +50,11 @@ function App() {
        <p>has {votes[selected]} votes</p> 
       <button onClick={handleVoting}>vote</button>
       <button onClick={handleClick}>next anecdote</button>
+      {mostVotes ? (<><h1>Anecdote with most votes</h1>
+      <div>
+        {anecdotes[mostVotesIndex]}
+      </div></>) : null
+      }
     </div>
   );
 }
