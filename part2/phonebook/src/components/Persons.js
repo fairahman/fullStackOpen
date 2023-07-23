@@ -3,7 +3,7 @@ export const Persons = ({filterVal, contacts}) => {
     <>
       {filterVal ? contacts.filter(contact => {
         for (let i = 0; i < filterVal.length; i++) {
-          if (filterVal[i].toLowerCase() !== contact.name[i].toLowerCase()) {
+          if (filterVal[i].toLowerCase() !== contact.name[i]?.toLowerCase()) {
             return false;
           } 
         }  
