@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm.js";
+import { Persons } from "./components/Persons";
 const App = () => {
   const [contacts, setContacts] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -24,9 +26,8 @@ const App = () => {
 
 
   const handleSubmit = (event) => {
-    console.log("contacts", contacts);
-
     event.preventDefault();
+    if (!name || !number) return;
     for (let contact of contacts) {
       console.log("name", name);
       console.log("contact", contact);
@@ -57,28 +58,11 @@ const App = () => {
   return (
     <>
       <h2>numberbook</h2>
-      {'filter shown with'} <Filter filterVal={filterVal} handleFiltering={handleFiltering}/>
+      {'search names'} <Filter filterVal={filterVal} handleFiltering={handleFiltering}/>
       <h2>Add a new number</h2>
-      <form onSubmit={handleSubmit}>
-        name <input value={name} onChange={handleNameChange} />
-        number <input value={number} onChange={handleNumberChange} />
-        <button>
-          add
-        </button>
-      </form>
+      <PersonForm handleSubmit={handleSubmit} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} name={name} number={number}/>
       <h1>Numbers</h1>
-      <div>
-        {filterVal ? contacts.filter(contact => {
-            for (let i = 0; i < filterVal.length; i++) {
-              if (filterVal[i].toLowerCase() !== contact.name[i].toLowerCase()) {
-                return false;
-              } 
-            }  
-            return true; 
-          }).map(contact => (<div key={contact.name}>{contact.name} {contact.number}</div>)) : 
-        contacts.map((contact) => <div key={contact.name}> {contact.name} {contact.number} </div>)}
-      </div>
-      
+      <Persons filterVal={filterVal} contacts={contacts}/>
     </>
 
   )
