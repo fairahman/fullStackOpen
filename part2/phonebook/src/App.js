@@ -31,7 +31,7 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!name || !number) return;
+    if (!name || !number) return; // if submitted without entering either name or number
     for (let contact of contacts) {
       console.log("name", name);
       console.log("contact", contact);
@@ -54,9 +54,11 @@ const App = () => {
     //   alert(`${name} is already added to numberbook`);
     //   return;
     // } 
-    setContacts([...contacts, { name: name, number: number }]);
-    setName('');
-    setNumber('');
+    axios
+      .post(' http://localhost:3001/persons', {name, number})
+      .then(response => setContacts(contacts.concat(response.data)));
+      setName('');
+      setNumber('');
 
   }
   return (
