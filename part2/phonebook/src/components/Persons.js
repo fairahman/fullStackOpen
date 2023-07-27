@@ -4,7 +4,7 @@ export const Persons = ({filterVal, contacts, handleDelete}) => {
  // console.log("filterVal at Persons:", contacts)
  const cachedContacts = useMemo(() =>{
    return contacts.map((contact) => <div key={contact.name} id={contact.id}> {contact.name} {contact.number} <button onClick={handleDelete}>delete</button> </div>)
- }, [contacts]);
+ }, [contacts, handleDelete]);
   return (
     <>
       {filterVal ? contacts.filter(contact => {
