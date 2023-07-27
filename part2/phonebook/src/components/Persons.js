@@ -1,4 +1,10 @@
-export const Persons = ({filterVal, contacts}) => {
+import { useMemo } from "react";
+
+export const Persons = ({filterVal, contacts, handleDelete}) => {
+ // console.log("filterVal at Persons:", contacts)
+ const cachedContacts = useMemo(() =>{
+   return contacts.map((contact) => <div key={contact.name} id={contact.id}> {contact.name} {contact.number} <button onClick={handleDelete}>delete</button> </div>)
+ }, [contacts]);
   return (
     <>
       {filterVal ? contacts.filter(contact => {
@@ -7,11 +13,10 @@ export const Persons = ({filterVal, contacts}) => {
             return false;
           } 
         }  
-        return true; 
+        return true;
       })
-      .map(contact => 
-        (<div key={contact.name}>{contact.name} {contact.number}</div>)) : 
-      contacts.map((contact) => <div key={contact.name}> {contact.name} {contact.number} </div>)}  
+      .map(contact => <div key={contact.name} id ={contact.id}> {contact.name} {contact.number} <button onClick={handleDelete}>delete</button> </div>)  
+      : cachedContacts}  
     </>
   )
 }
