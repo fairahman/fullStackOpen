@@ -6,12 +6,12 @@ import PersonForm from "./components/PersonForm.js";
 import { Persons } from "./components/Persons";
 
 const App = () => {
-  console.log(noteService)
+  
   const [contacts, setContacts] = useState([]);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [filterVal, setFilterVal] = useState('');
-
+  console.log("name", name)
   useEffect(() => {
     console.log('useEffect runs...')
     const fetchData = async () => {
@@ -38,22 +38,49 @@ const App = () => {
 
   };
 
-  const handleSubmit = (event) => {
+  const  handleSubmit = async (event) => {
     event.preventDefault();
     if (!name || !number) return; // if submitted without entering either name or number
+    const updatedContacts = [];
+    let isContactUpdated = false; 
+   
+    // console.log("name at handleSubmit", name.split(' '))
+    const capitalizedName = name.split(' ')
+                                .map((word) =>`${word[0].toUpperCase()}${word.slice(1).toLowerCase()}`)
+                                .join(' ')
+    console.log("capitalName:", capitalizedName)
+    
     for (let contact of contacts) {
-      console.log("name", name);
-      console.log("contact", contact);
-      if (name === contact.name) {
-        alert(`${name} is already added to numberbook`);
-        return;
+      console.log("name1", name);
+      console.log("contact1", contact);
+      // gotta remember to compare with  lowercase
+      if (capitalizedName === contact.name) {
+        // alert(`${name} is already added to numberbook`);
+        const replace = window.confirm(`${capitalizedName} is already added to phonebook, replace old number with new one?`)
+        //** */ YOU WERE CODING HERE TRYING TO SEND ID OF DUPLICATE NAMED CONTACT TO THE isContactUpdated FUNCTION
+        if (replace) {
+          
+          const newContact = await noteService.updateContact(contact, number)
+            updatedContacts.push(newContact.data)
+            isContactUpdated = true;
+            setName('');
+            setNumber('')
+            console.log("isContactUpdated at line 63", isContactUpdated)
+
+              //  WILL HAVE TO DO IT AFTER CONSIDERING ASYNCHRONOSITY!!! setContacts(updatedContacts);
+            
+          // const contacts.filter(contact => contact.name !== name)
+
+        }
+        else return;
       }
 
-      if (number === contact.number) {
+      else if (number === contact.number) {
         console.log("number", number);
         alert(`${number} is already added to numberbook`)
         return
       }
+      else updatedContacts.push(contact);
     }
     // if (name in contacts) {
     //   event.preventDefault();
@@ -63,11 +90,17 @@ const App = () => {
     //   alert(`${name} is already added to numberbook`);
     //   return;
     // }
-    noteService
-      .create({name, setName, number, setNumber, contacts, setContacts})
-      .then(response => setContacts(contacts.concat(response.data)));
-      setName('');
-      setNumber('');
+    console.log("full updatedContacts:", updatedContacts);
+   if (!isContactUpdated) {
+      // console.log('here is the problemmm!!!!!!!!!!!!! at line 88', isContactUpdated)
+      noteService
+      .create({capitalizedName, setName, number, setNumber, contacts, setContacts})
+      .then(response => setContacts(contacts.concat(response.data)))
+      .then(() => setName(''))
+      .then(() => setNumber('')); 
+   }
+   else setContacts(updatedContacts);
+
     // axios
     //   .post(' http://localhost:3001/persons', {name, number})
     //   .then(response => setContacts(contacts.concat(response.data)));
@@ -89,7 +122,7 @@ const App = () => {
       
       const updatedContacts = contacts.filter((contact) => {
         // if (contact.id === +id) deleteName = contact.name; 
-        return contact.id !== +id})
+      return contact.id !== +id})
       console.log("updatedContacts", updatedContacts);
       setContacts(updatedContacts);  
     })
