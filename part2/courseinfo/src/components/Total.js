@@ -1,10 +1,11 @@
 const Total = ({parts}) => (
-  <p>
-    Total of &nbsp; 
+  <strong><p>
+   Total of&nbsp; 
     {parts.reduce(
       (accumulator, curr) => accumulator + curr.exercises, 0
        // Provide an initial value of 0
-    )}&nbsp; exercises
+    )}&nbsp;exercises 
   </p>
+  </strong>
 )
 export default Total;
