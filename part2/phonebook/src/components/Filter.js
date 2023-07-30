@@ -1,2 +1,2 @@
-const Filter = ({handleFiltering, filterVal}) => <input value={filterVal} onChange={handleFiltering}/>
+const Filter = ({handleFiltering, filterVal}) => <div><input value={filterVal} onChange={handleFiltering}/></div>
 export default Filter;
